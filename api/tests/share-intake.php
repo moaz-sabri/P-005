@@ -18,7 +18,7 @@ declare(strict_types=1);
  * file, a filename with a traversal in it, a part whose type is text/html.
  */
 
-const SHARE_BOUNDARY = '----TadkhirShareTestBoundary7d3f';
+const SHARE_BOUNDARY = '----NotesShareTestBoundary7d3f';
 
 /**
  * One multipart part. `$filename` null means a plain field.

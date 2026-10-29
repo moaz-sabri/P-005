@@ -68,8 +68,8 @@ export const strings = {
         // somebody who has never seen the app, so each one says what it means
         // rather than naming a feature.
         onboarding: {
-            mark: "Tadkhir",
-            welcomeTitle: "Tadkhir",
+            mark: "Notes",
+            welcomeTitle: "Notes",
             welcomeLead: "The everyday things, in one place.",
             welcomeBody: "Tasks and the sessions you time them in, things to come back to, notes, and money — kept on this device, private unless you choose to sync.",
             welcomeStart: "Get started",
@@ -115,7 +115,7 @@ export const strings = {
             importPassword: "Key password",
             importOwner: "Owner number",
             importSubmit: "Attach key",
-            briefTitle: "What Tadkhir does",
+            briefTitle: "What Notes does",
             briefLead: "Start a session and the timer counts up. Everything else is optional.",
             briefSessions: "Sessions",
             briefSessionsHint: "A timer for one piece of work. It stays on screen wherever you go, and can be read from across the room.",
@@ -131,7 +131,7 @@ export const strings = {
             briefReportsHint: "Where your time and your money actually went.",
             briefSettings: "Settings",
             briefSettingsHint: "Language, backups, syncing, and this device.",
-            briefStart: "Start using Tadkhir"
+            briefStart: "Start using Notes"
         },
         home: {
             // The six blocks of the glance, in the order they appear. Each one
@@ -864,7 +864,7 @@ export const strings = {
             // Chromium and nowhere else, so on iOS and on desktop Firefox there is
             // no button this app can draw that would do anything. Saying so, and
             // saying where the button is, IS the content.
-            lead: "Installing puts Tadkhir on your home screen and runs it full screen, like any other app. It keeps working without a network, and it stores your data more reliably.",
+            lead: "Installing puts Notes on your home screen and runs it full screen, like any other app. It keeps working without a network, and it stores your data more reliably.",
             benefitsTitle: "What you get",
             benefitOffline: "It works with no connection. A session keeps counting on a plane, on a train, or with the router off.",
             benefitStorage: "Your data is stored more reliably, and the browser is far less likely to clear it.",
@@ -877,7 +877,7 @@ export const strings = {
             iosSteps: "Tap the Share button (the square with an arrow). Scroll down and tap ‘Add to Home Screen’, then confirm with Add.",
             iosNote: "iOS offers this in Safari only, and through the Share menu only. There is no install button anywhere else, and no way for a web page to add it for you.",
             desktop: "Windows, Mac and Linux — Chrome, Edge, Brave, Opera",
-            desktopSteps: "Click the install icon at the right of the address bar, or open the browser menu and choose ‘Install Tadkhir’ or ‘Create shortcut’.",
+            desktopSteps: "Click the install icon at the right of the address bar, or open the browser menu and choose ‘Install Notes’ or ‘Create shortcut’.",
             firefox: "Firefox on a computer",
             firefoxSteps: "Firefox does not install web apps on a computer. Use Chrome or Edge for the installed version, or simply bookmark this page — the app behaves the same either way.",
             yours: "This looks like your device",
@@ -907,7 +907,7 @@ export const strings = {
             invalid_transition: "That action is not possible while the session is in its current state.",
             not_found: "Not found.",
             not_json: "Invalid JSON file.",
-            wrong_app: "This is not a Tadkhir backup.",
+            wrong_app: "This is not a Notes backup.",
             newer_version: "This backup is from a newer version.",
             invalid_schema: "The backup structure is invalid.",
             broken_reference: "The backup contains a broken reference.",
@@ -1065,8 +1065,8 @@ export const strings = {
         },
         // نفس ترتيب النسخة الإنجليزية: ترحيب، ثم إعداد الوصول، ثم شرح مختصر.
         onboarding: {
-            mark: "Tadkhir",
-            welcomeTitle: "Tadkhir",
+            mark: "Notes",
+            welcomeTitle: "Notes",
             welcomeLead: "أشياء يومك، في مكان واحد.",
             welcomeBody: "المهام والجلسات التي تقيس وقتها، والأشياء التي تريد العودة إليها، والملاحظات، والمال — على هذا الجهاز، خاص ما لم تختار المزامنة.",
             welcomeStart: "لنبدأ",
@@ -1111,7 +1111,7 @@ export const strings = {
             importPassword: "كلمة مرور المفتاح",
             importOwner: "الرقم المالك",
             importSubmit: "إرفاق المفتاح",
-            briefTitle: "ماذا يفعل Tadkhir",
+            briefTitle: "ماذا يفعل Notes",
             briefLead: "ابدأ جلسة فيعدّ المؤقّت للأعلى. وكل ما عداه اختياري.",
             briefSessions: "الجلسات",
             briefSessionsHint: "مؤقّت لمهمة واحدة. يبقى ظاهرًا أينما ذهبت، ويمكن قراءته من مسافة.",
@@ -1127,7 +1127,7 @@ export const strings = {
             briefReportsHint: "أين ذهب وقتك ومالك فعليًا.",
             briefSettings: "الإعدادات",
             briefSettingsHint: "اللغة والنسخ الاحتياطي والمزامنة وهذا الجهاز.",
-            briefStart: "ابدأ استخدام Tadkhir"
+            briefStart: "ابدأ استخدام Notes"
         },
         home: {
             // نفس الترتيب الست كتل الصفحة، وكل واحدة تخفي نفسها إذا لم يكن
@@ -1776,7 +1776,7 @@ export const strings = {
             // الصفحة: beforeinstallprompt موجود في كروميوم وحده، فلا يوجد على iOS
             // ولا على فَيَرفُكس على الكمبيوتر زر يمكن لهذا التطبيق رسمه ويقوم
             // بشيء. Saying so, and saying where the button is, is the whole content.
-            lead: "التثبيت يضع Tadkhir على شاشتك الرئيسية ويشغّله بملء الشاشة، مثل أي تطبيق آخر. يستمر بالعمل بلا اتصال، ويحفظ بياناتك بشكل أكثر موثوقية.",
+            lead: "التثبيت يضع Notes على شاشتك الرئيسية ويشغّله بملء الشاشة، مثل أي تطبيق آخر. يستمر بالعمل بلا اتصال، ويحفظ بياناتك بشكل أكثر موثوقية.",
             benefitsTitle: "ماذا تحصل عليه",
             benefitOffline: "يعمل بلا اتصال. تستمر الجلسة في العدّ في الطائرة أو في القطار أو بعد إطفاء الراوتر.",
             benefitStorage: "تُحفظ بياناتك بشكل أكثر موثوقية، ويميل المتصفح كثيرًا إلى مسحها.",
@@ -1789,7 +1789,7 @@ export const strings = {
             iosSteps: "اضغط زر المشاركة (المربع الذي عليه سهم). مرّر إلى الأسفل واضغط «إضافة إلى الشاشة الرئيسية»، ثم أكّد بالضغط على «إضافة».",
             iosNote: "لا يوفّر iOS هذه الخطوة إلا في سفاري، وعبر زر المشاركة فقط. لا يوجد زر تثبيت في أي مكان آخر، ولا تستطيع أي صفحة ويب إضافته نيابة عنك.",
             desktop: "ويندوز وماك ولينكس — كروم، إيدج، بروف، أوبرا",
-            desktopSteps: "اضغط أيقونة التثبيت في يمين شريط العنوان، أو افتح قائمة المتصفح واختر «تثبيت Tadkhir» أو «إنشاء اختصار».",
+            desktopSteps: "اضغط أيقونة التثبيت في يمين شريط العنوان، أو افتح قائمة المتصفح واختر «تثبيت Notes» أو «إنشاء اختصار».",
             firefox: "فَيَرفُكس على الكمبيوتر",
             firefoxSteps: "لا يثبّت فَيَرفُكس تطبيقات الويب على الكمبيوتر. استخدم كروم أو إيدج للنسخة المثبّتة، أو ضع إشارة مرجعية لهذه الصفحة فقط — التطبيق يعمل بالطريقة نفسها في الحالتين.",
             yours: "يبدو أن هذا جهازك",
@@ -1819,7 +1819,7 @@ export const strings = {
             invalid_transition: "هذا الإجراء غير ممكن في حالة الجلسة الحالية.",
             not_found: "غير موجود.",
             not_json: "ملف JSON غير صالح.",
-            wrong_app: "هذه ليست نسخة احتياطية من Tadkhir.",
+            wrong_app: "هذه ليست نسخة احتياطية من Notes.",
             newer_version: "هذه النسخة من إصدار أحدث.",
             invalid_schema: "بنية النسخة الاحتياطية غير صالحة.",
             broken_reference: "توجد إشارة مكسورة داخل النسخة.",

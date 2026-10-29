@@ -5,7 +5,6 @@ import { todaySummary } from "../domain/analytics.js";
 import { startOfDay } from "../domain/time.js";
 import { bus } from "./bus.js";
 
-const tasks = reader("task");
 const sessions = reader("session");
 
 // The settings a device starts with, and the floor every read is taken over.
@@ -67,13 +66,13 @@ export const store = {
             await this.refreshSettings();
             return;
         }
-        const data = await withTx(["tasks", "sessions", "meta"], "readonly", async r => {
+        const data = await withTx(["sessions", "meta"], "readonly", async r => {
             const meta = r.meta;
             const stored = (await metaRepo(meta).get("settings"))?.value || null;
             const lastBackup = (await metaRepo(meta).get("lastBackup"))?.value ?? null;
             const now = Date.now();
             return {
-                tasks: await tasks(r).getAll(),
+                tasks: [],
                 active: await sessions(r).getActive(),
                 recent: await sessions(r).recent(5),
                 today: todaySummary(await sessions(r).sinceStarted(startOfDay(now)), now),

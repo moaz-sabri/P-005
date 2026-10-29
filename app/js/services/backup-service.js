@@ -49,11 +49,9 @@ async function readAllRecords(r) {
 
 function normalizeImport(data) {
     const at = Date.parse(data.exportedAt) || Date.now();
-    const tasks = data.tasks.map(t => ({ ...t, usageCount: 0, lastUsedAt: null }));
-    const byTask = new Map(tasks.map(t => [t.id, t]));
     const newEvents = [];
 
-    const sessions = data.sessions.map(x => {
+    const sessions = (data.sessions ?? []).map(x => {
         const s = {
             ...x,
             segments: x.segments.map(y => ({ ...y })),
@@ -71,16 +69,10 @@ function normalizeImport(data) {
             s.actualMs = null;
             newEvents.push({ id: crypto.randomUUID(), sessionId: s.id, type: "session.paused", at, data: { reason: "import" } });
         }
-
-        if (s.status === "completed" && s.taskId && byTask.has(s.taskId)) {
-            const t = byTask.get(s.taskId);
-            t.usageCount += 1;
-            t.lastUsedAt = Math.max(t.lastUsedAt ?? 0, s.endedAt ?? s.startedAt);
-        }
         return s;
     });
 
-    return { ...data, tasks, sessions, events: [...data.events, ...newEvents] };
+    return { ...data, sessions, events: [...(data.events ?? []), ...newEvents] };
 }
 
 // Finance is stored as-is: no derived field is persisted, so there is nothing
@@ -311,13 +303,12 @@ export const backupService = {
 
         const data = {
             ...normalizeImport(rawData),
-            ...normalizeFinance(rawData),
             ...normalizeLater(rawData),
             ...normalizePages(rawData),
             ...normalizeKanban(rawData),
             ...normalizeRoutines(rawData)
         };
-        const preview = { tasks: data.tasks.length, sessions: data.sessions.length, events: data.events.length };
+        const preview = { sessions: data.sessions.length, events: data.events.length };
         for (const key of Object.keys(OVER_CAP)) preview[key] = data[key].length;
         preview.later = data.later.length;
         preview.pages = data.pages.length;
@@ -330,7 +321,6 @@ export const backupService = {
     async importAll(data) {
         const clean = {
             ...normalizeImport(data),
-            ...normalizeFinance(data),
             ...normalizeLater(data),
             ...normalizePages(data),
             ...normalizeKanban(data),
@@ -402,10 +392,6 @@ export const backupService = {
             // built-in set is restored right here — the same state Migration 5
             // leaves a brand-new device in. Like the rest of clearAll, nothing is
             // pushed: a wiped device re-syncs from the server or is set up again.
-            const categories = recordFor("category").repo(r.categories);
-            for (const id of BUILTIN_FINANCE_CATEGORIES) {
-                await categories.put({ id, createdAt: Date.now(), updatedAt: Date.now() });
-            }
             const settings = (await metaRepo(r.meta).get("settings"))?.value || {};
             await metaRepo(r.meta).set("settings", { ...settings, language: settings.language });
         });

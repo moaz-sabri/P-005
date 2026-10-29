@@ -12,7 +12,7 @@ Please include:
 
 - What the vulnerability is, and what an attacker gains from it
 - Steps to reproduce, or the request that triggers it
-- The Tadkhir version, the browser or client, and the deployment (Docker, or
+- The Notes version, the browser or client, and the deployment (Docker, or
   nginx + PHP-FPM)
 
 You can expect an acknowledgement. If a report turns out not to be a
@@ -20,7 +20,7 @@ vulnerability, that is fine and will not be treated as a bad report.
 
 ## What is in scope
 
-Tadkhir stores personal data and, when sync is enabled, sends it to a server.
+Notes stores personal data and, when sync is enabled, sends it to a server.
 Both paths are in scope:
 
 - The sync API (`api/`), its authentication, and its rate limiting

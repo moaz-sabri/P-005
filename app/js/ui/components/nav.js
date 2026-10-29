@@ -38,13 +38,10 @@ import { pickRow, sectionTitle } from "./ui.js";
  *  disagree about what one of them is called. */
 export const NAV_LABELS = {
     "/": "nav.home",
-    "/tasks": "nav.tasks",
     "/routines": "nav.routines",
     "/later": "nav.later",
-    "/finance": "nav.finance",
     "/pages": "nav.pages",
     "/kanban": "nav.kanban",
-    "/sessions": "nav.sessions",
     "/log": "nav.log",
     "/reports": "nav.reports",
     "/settings": "nav.settings"

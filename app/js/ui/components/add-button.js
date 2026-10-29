@@ -3,13 +3,9 @@ import { t } from "../../i18n/i18n.js";
 import { store } from "../../app/store.js";
 import { bus } from "../../app/bus.js";
 import { router } from "../../app/router.js";
-import { sessionService } from "../../services/session-service.js";
 import { toast } from "./toast.js";
 import { dialog } from "./dialog.js";
 import { action, targetGrid, target } from "./ui.js";
-import { MONEY_ICON_NAMES } from "../icons.js";
-import { openQuickTransaction } from "./finance-quick-add.js";
-import { field } from "./fields.js";
 
 // What a record added from this button does to the screen underneath it. The
 // dialog is over whatever the user was doing, and a glance is a SNAPSHOT: the home
@@ -48,21 +44,11 @@ function afterQuickAdd(record) {
 // would leave the number to be guessed later, which is the one thing a ledger
 // must never ask for.
 const ACTIONS = Object.freeze([
-    // Two of the four reuse a word that already existed elsewhere in the app — the
-    // share chooser and the old home launcher said exactly these — so "add an
-    // expense" is the same phrase everywhere rather than a fourth synonym.
-    //
-    // The two money entries open the quick dialogs rather than following a link to
-    // the new-transaction page, because the page is gone: a link would have had to
-    // land on a route that immediately opened a dialog over an empty view, which is
-    // the same thing with a page history entry in the middle. The address those two
-    // used to point at is still a route (see finance-transactions.js) — it is what a
-    // launcher shortcut opens — but nothing in the running app navigates to it.
-    { key: "home.addIncome", icon: MONEY_ICON_NAMES.income, quick: "transaction", type: "income" },
-    { key: "home.addExpense", icon: MONEY_ICON_NAMES.expense, quick: "transaction", type: "expense" },
-    { key: "session.startSession", icon: "clock", onClick: "session" },
-    { key: "add.note", icon: "bookmark", href: "/later/new" }
+    { key: "add.note", icon: "bookmark", href: "/later/new" },
+    { key: "add.routine", icon: "repeat", href: "/routines/new" },
+    { key: "add.page", icon: "file", href: "/pages" }
 ]);
+
 
 export const addButton = {
     /**

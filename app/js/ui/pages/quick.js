@@ -5,7 +5,7 @@ import { peekShare, sharePrefill } from "../../app/share-payload.js";
 import { sessionService } from "../../services/session-service.js";
 import { MONEY_ICON_NAMES } from "../icons.js";
 import { toast } from "../components/toast.js";
-import { openQuickTransaction } from "../components/finance-quick-add.js";
+// trimmed
 import { pageTall, pageHead, targetGrid, target, rowAction } from "../components/ui.js";
 
 // The four things somebody reaches for this app to do, as ONE address each.
@@ -141,13 +141,6 @@ async function run(action, parked) {
         }
         return;
     }
-    if (action === "income" || action === "expense") {
-        const record = await openQuickTransaction({ type: action, title: sharePrefill(parked) || "" });
-        // The chooser under this dialog is a snapshot of nothing that changed, but
-        // re-mounting it is free and keeps one rule everywhere: after a write, the
-        // page you are on is the page as it now is.
-        if (record) router.refresh();
-        return;
-    }
+    // income/expense trimmed out
     router.navigate(DESTINATIONS[action]);
 }

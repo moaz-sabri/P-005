@@ -1,8 +1,5 @@
 import { t } from "../../i18n/i18n.js";
-import { store } from "../../app/store.js";
 import { laterService } from "../../services/later-service.js";
-import { sessionService } from "../../services/session-service.js";
-import { financeService } from "../../services/finance-service.js";
 import { laterLabel, hostOf } from "../../domain/later.js";
 import { linkFor, targetIdOf } from "../../domain/pages.js";
 import { richTextPreview } from "../../domain/rich-text.js";
@@ -36,45 +33,20 @@ import { formatMoney } from "../../domain/money.js";
  */
 export async function candidatesFor(type) {
     switch (type) {
-        // Tasks are already in memory — the whole store is held in the app state
-        // for the home screen and the session checklist, so reading them again
-        // would be the same data through a second door.
-        case "task":
-            return store.getState().tasks.map(taskOption);
-        case "session":
-            return (await sessionService.list()).map(sessionOption);
-        // Both halves of Later, open first: a follow-up you have not dealt with
-        // is the one a page is most likely to point at.
         case "reference": {
             const { open, done } = await laterService.list();
             return [...open, ...done].map(referenceOption);
         }
-        case "expense":
-            return (await financeService.listTransactions()).map(expenseOption);
         default:
             return [];
     }
 }
 
-// ---------------------------------------------------------------- resolving -
 
-/**
- * Resolve every pointer on a page in one pass, at most one read per kind.
- *
- * Called once per render, so a page with twenty pointers to twenty tasks is one
- * pass over the in-memory task list and not twenty transactions. Returns a Map
- * keyed by item id, each value either `{ href, title, subtitle }` or
- * `{ missing: true }`.
- *
- * Items that point at nothing (a heading, a paragraph, a divider) are absent from
- * the map, so a caller can ask about an item it has not classified and get
- * nothing rather than a wrong answer.
- */
 export async function resolveAll(items) {
     const linked = (Array.isArray(items) ? items : []).filter(x => PAGE_ITEM_TARGETS[x?.type]);
     const kinds = [...new Set(linked.map(x => x.type))];
 
-    // One read per kind, in parallel, rather than one per pointer.
     const byKind = new Map();
     await Promise.all(kinds.map(async type => {
         const options = await candidatesFor(type);
@@ -87,8 +59,6 @@ export async function resolveAll(items) {
         const hit = id ? byKind.get(item.type)?.get(id) : null;
         out.set(item.id, hit
             ? { href: linkFor(item), title: hit.title, subtitle: hit.subtitle }
-            // Deleted here, or on another device. A plain fact, and the row says
-            // it in words rather than offering a link to a screen with no record.
             : { missing: true });
     }
     return out;

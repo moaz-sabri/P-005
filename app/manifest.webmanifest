@@ -1,16 +1,23 @@
 {
     "id": "/",
-    "name": "Tadkhir",
-    "short_name": "Tadkhir",
+    "name": "Notes",
+    "short_name": "Notes",
     "description": "A simple, local-first place for everyday tasks, sessions, expenses, subscriptions, debts, and things to revisit.",
     "start_url": "/",
     "scope": "/",
     "display": "standalone",
-    "display_override": ["standalone", "minimal-ui", "browser"],
+    "display_override": [
+        "standalone",
+        "minimal-ui",
+        "browser"
+    ],
     "orientation": "any",
     "background_color": "#000000",
     "theme_color": "#000000",
-    "categories": ["productivity", "utilities"],
+    "categories": [
+        "productivity",
+        "utilities"
+    ],
     "prefer_related_applications": false,
     "share_target": {
         "action": "/api/share/intake",
@@ -23,7 +30,27 @@
             "files": [
                 {
                     "name": "files",
-                    "accept": ["image/*", "audio/*", "video/*", ".pdf", ".txt", ".md", ".csv", ".json", ".rtf", ".epub", ".doc", ".docx", ".odt", ".xls", ".xlsx", ".ods", ".ppt", ".pptx", ".odp"]
+                    "accept": [
+                        "image/*",
+                        "audio/*",
+                        "video/*",
+                        ".pdf",
+                        ".txt",
+                        ".md",
+                        ".csv",
+                        ".json",
+                        ".rtf",
+                        ".epub",
+                        ".doc",
+                        ".docx",
+                        ".odt",
+                        ".xls",
+                        ".xlsx",
+                        ".ods",
+                        ".ppt",
+                        ".pptx",
+                        ".odp"
+                    ]
                 }
             ]
         }

@@ -42,7 +42,6 @@ function notify() {
  */
 const SERVICES = {
     later: () => import("./later-service.js").then(m => m.laterService),
-    tasks: () => import("./task-service.js").then(m => m.taskService),
     pages: () => import("./page-service.js").then(m => m.pageService)
 };
 
@@ -68,13 +67,6 @@ const ORIGINALS = {
         // reversible, which is what makes it the right answer for a board.
         complete: async id => (await SERVICES.later()).setCompleted(id, true),
         reopen: async id => (await SERVICES.later()).setCompleted(id, false)
-    },
-    tasks: {
-        // Archiving, not deleting: closing a task in this app means archiving it,
-        // and the delete question belongs to the task's own screen. A board card
-        // that quietly deleted a task would destroy the record it points at.
-        complete: async id => (await SERVICES.tasks()).archive(id),
-        reopen: async id => (await SERVICES.tasks()).restore(id)
     },
     pages: {
         // Nothing. A page is a document, not a unit of work, so "finished" has no

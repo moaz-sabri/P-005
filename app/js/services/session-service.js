@@ -9,13 +9,11 @@ import { notifications } from "../app/notifications.js";
 import { broadcastChange } from "../app/sync.js";
 import { syncService } from "./sync-service.js";
 
-const tasks = reader("task");
 const sessions = reader("session");
 const events = reader("event");
 
 const T_SESSION = "session";
 const T_EVENT = "event";
-const T_TASK = "task";
 
 const act = () => Date.now();
 
@@ -25,10 +23,9 @@ function notify() {
 }
 
 async function activeOp(engine) {
-    const out = await withTx(["sessions", "events", "tasks"], "readwrite", async r => {
+    const out = await withTx(["sessions", "events"], "readwrite", async r => {
         const sr = sessions(r);
         const er = events(r);
-        const tr = tasks(r);
         const s = await sr.getActive();
         if (!s) throw new NotFoundError("session", "active");
 
@@ -36,15 +33,7 @@ async function activeOp(engine) {
         await sr.put(result.session);
         await er.add(result.event);
 
-        let taskUpdate = null;
-        if (result.session.status === "completed" && result.session.taskId) {
-            const t = await tr.get(result.session.taskId);
-            if (t) {
-                taskUpdate = { ...t, usageCount: t.usageCount + 1, lastUsedAt: result.session.endedAt, updatedAt: act() };
-                await tr.put(taskUpdate);
-            }
-        }
-        return { result, taskUpdate };
+        return { result };
     });
     const session = out.result.session;
     // Pause/resume keeps the session local (it is still "current"). Only the
@@ -56,8 +45,7 @@ async function activeOp(engine) {
         // one per event: a long session carries a lot of them.
         await syncService.enqueueMany([
             ...journal.map(e => ({ type: T_EVENT, id: e.id, op: "upsert", data: e, at: e.at })),
-            { type: T_SESSION, id: session.id, op: "upsert", data: session },
-            ...(out.taskUpdate ? [{ type: T_TASK, id: out.taskUpdate.id, op: "upsert", data: out.taskUpdate }] : [])
+            { type: T_SESSION, id: session.id, op: "upsert", data: session }
         ]);
     }
     notify();
@@ -116,14 +104,7 @@ export const sessionService = {
             throw new ValidationError("durationMs", "out_of_range");
         }
 
-        const out = await withTx(["tasks", "sessions", "events"], "readwrite", async r => {
-            let task = null;
-            if (taskId) {
-                task = await tasks(r).get(taskId);
-                if (!task) throw new NotFoundError("task", taskId);
-                if (task.archived) throw new ValidationError("task", "archived");
-            }
-
+        const out = await withTx(["sessions", "events"], "readwrite", async r => {
             const s = await sessions(r).getActive();
             if (s) throw new ActiveSessionExistsError(s.id);
 
@@ -131,7 +112,7 @@ export const sessionService = {
 
             const created = createSession({
                 id: crypto.randomUUID(),
-                task,
+                task: null,
                 title: label || null,
                 now: act(),
                 routineId: routine,

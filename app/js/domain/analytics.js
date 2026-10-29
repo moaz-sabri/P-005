@@ -404,7 +404,7 @@ export const EXPECTED_WINDOW = 14;
  *
  * Three rules, all about not inventing an expectation the user never stated:
  *
- *  - It is DERIVED, never configured. Tadkhir has no daily-goal setting, and adding
+ *  - It is DERIVED, never configured. Notes has no daily-goal setting, and adding
  *    one would mean asking the user to predict their own day before living it.
  *    The only expectation available without asking is the one their own history
  *    already states.
@@ -416,7 +416,7 @@ export const EXPECTED_WINDOW = 14;
  *    of a real day and every morning reads as being ahead of it.
  *
  * The span starts at the first day that had time in it rather than at the
- * window's edge, so a user who started Tadkhir on Monday is not told their
+ * window's edge, so a user who started Notes on Monday is not told their
  * expected day is a seventh of the one they actually keep.
  */
 export function expectedDailyMs(sessions, { window = EXPECTED_WINDOW, now = Date.now() } = {}) {

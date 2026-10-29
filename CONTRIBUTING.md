@@ -1,18 +1,18 @@
-# Contributing to Tadkhir
+# Contributing to Notes
 
-Thanks for looking at Tadkhir.
+Thanks for looking at Notes.
 
-**Contributions should improve Tadkhir without making Tadkhir unnecessarily
+**Contributions should improve Notes without making Notes unnecessarily
 complicated.**
 
-That sentence is the review criterion. Tadkhir is deliberately small and
+That sentence is the review criterion. Notes is deliberately small and
 local-first, and most feature requests that are perfectly reasonable for other
 projects do not belong here. If you are unsure whether a change fits, open an
 issue and ask before writing it.
 
 ## How the project works
 
-Tadkhir is a PWA: plain ES modules in the browser, with no framework and no
+Notes is a PWA: plain ES modules in the browser, with no framework and no
 runtime dependencies, plus a small PHP + SQLite API used only for optional sync.
 
 ```
@@ -27,7 +27,7 @@ api/tests/          PHP HTTP integration tests
 ```
 
 Your data lives in IndexedDB in the browser. That is the primary store; the
-server is optional. Nothing about the basic use of Tadkhir needs a network.
+server is optional. Nothing about the basic use of Notes needs a network.
 
 Read [`README.md`](README.md) for the architecture overview and
 [`PLAYBOOK.md`](PLAYBOOK.md) for the detailed implementation notes.
@@ -122,7 +122,7 @@ Then open a pull request from your fork.
 
 - **A clear description** of what changes and why.
 - **Tests.** A change to behaviour comes with a test that fails without it. The
-  existing tests are written to state *why* a rule exists, so match that: explain
+  existing tests are written to state _why_ a rule exists, so match that: explain
   the reason, not just the mechanism.
 - **Both languages** if you touch user-facing text. English and Arabic live in
   `app/js/i18n/strings.js`, and `npm run check:i18n` enforces that every key
@@ -132,7 +132,7 @@ Then open a pull request from your fork.
 
 ## What we will ask you to change
 
-- **A dependency added for convenience.** Tadkhir ships no runtime dependencies,
+- **A dependency added for convenience.** Notes ships no runtime dependencies,
   and that is enforced by a test. The reasoning is in the comment on that test:
   a runtime dependency turns the bundle into a package manager's output, and the
   cost is paid on the worst possible connection by the user who can least afford

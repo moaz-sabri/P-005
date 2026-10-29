@@ -68,7 +68,7 @@ export const KANBAN_STATUSES = ["have", "working", "done", "deferred"];
 // Which services may be pointed at. A closed list on purpose: it is the set of
 // things that have a detail screen to open, and a card that cannot be opened is
 // a card the user cannot act on.
-export const KANBAN_SERVICES = ["tasks", "later", "pages"];
+export const KANBAN_SERVICES = ["later", "pages"];
 
 // A day key is exactly ten characters: four digits, a dash, two, a dash, two.
 // Deliberately not `Date#toDateString()`, which is locale-dependent and would
@@ -938,7 +938,7 @@ export function assertLaterRecords(records) {
 // place a task can be edited, never a stale copy, and never a fifth record type
 // the other features have to know about.
 export const PAGE_ITEM_TYPES = [
-    "text", "heading", "divider", "task", "session", "reference", "expense"
+    "text", "heading", "divider", "reference"
 ];
 
 // Which field inside `content` holds the id of the record an item points at,
@@ -952,10 +952,7 @@ export const PAGE_ITEM_TYPES = [
 // at a Later item, and `expense` points at a money record in either direction ظ¤
 // so neither name is a promise about a direction the app does not have.
 export const PAGE_ITEM_TARGETS = Object.freeze({
-    task: "taskId",
-    session: "sessionId",
-    reference: "laterId",
-    expense: "transactionId"
+    reference: "laterId"
 });
 
 // Per-account quotas, both checked inside the write transaction like every other

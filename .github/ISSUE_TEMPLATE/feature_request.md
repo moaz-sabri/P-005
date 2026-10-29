@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest something Tadkhir should do
+about: Suggest something Notes should do
 labels: enhancement
 ---
 
@@ -10,13 +10,13 @@ labels: enhancement
 
 **Why the current behaviour does not cover it**
 
-**Which part of Tadkhir it belongs to**
+**Which part of Notes it belongs to**
 
 <!-- Tasks / Sessions / Money / Later / Pages / Reports / Settings / install -->
 
 Notes before you send it:
 
-- Tadkhir is local-first and personal. Anything that makes it depend on a server,
+- Notes is local-first and personal. Anything that makes it depend on a server,
   or that requires an account to work, will be declined.
 - A feature that needs a new runtime dependency is usually a sign it belongs to
   another project.

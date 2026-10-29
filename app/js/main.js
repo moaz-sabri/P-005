@@ -11,16 +11,7 @@ import { shouldRunOnboarding } from "./app/first-run.js";
 import { runOnboarding } from "./ui/components/onboarding.js";
 import { hasEncryptionKeys } from "./services/crypto-service.js";
 import { home } from "./ui/pages/home.js";
-import { tasksPage, newTask } from "./ui/pages/tasks.js";
-import { taskDetail } from "./ui/pages/task-detail.js";
-import { sessionsPage } from "./ui/pages/sessions.js";
-import { sessionDetail } from "./ui/pages/session-detail.js";
 import { currentSession } from "./ui/pages/current-session.js";
-import { financePage } from "./ui/pages/finance.js";
-import { transactionsPage, newTransaction, transactionDetail } from "./ui/pages/finance-transactions.js";
-import { recurringPage, newRecurring, recurringDetail } from "./ui/pages/finance-recurring.js";
-import { debtsPage, newDebt, debtDetail } from "./ui/pages/finance-debts.js";
-import { financeCategoriesPage } from "./ui/pages/finance-categories.js";
 import { laterPage, newLater, laterDetail } from "./ui/pages/later.js";
 import { pagesPage, pageDetail } from "./ui/pages/pages.js";
 import { routinesPage, newRoutine, routineDetail } from "./ui/pages/routines.js";
@@ -47,29 +38,7 @@ const SHARE_PATH = "/share";
 
 defineRoutes([
     { path: "/", page: home },
-    { path: "/tasks", page: tasksPage },
-    { path: "/tasks/new", page: newTask },
-    { path: "/tasks/:id", page: taskDetail },
-    { path: "/sessions", page: sessionsPage },
-    { path: "/sessions/:id", page: sessionDetail },
     { path: "/session", page: currentSession },
-    { path: "/finance", page: financePage },
-    { path: "/finance/transactions", page: transactionsPage },
-    { path: "/finance/transactions/new", page: newTransaction },
-    // One route for both directions, with the type as a parameter. Two literal
-    // paths could not do this: the pattern has no `:segment`, so match() built no
-    // params and `params.type` was always undefined — which meant the home
-    // screen's "add income" button silently opened the form pre-selected as an
-    // expense, and the only hint was the user's own mistake later.
-    { path: "/finance/transactions/new/:type", page: newTransaction },
-    { path: "/finance/transactions/:id", page: transactionDetail },
-    { path: "/finance/recurring", page: recurringPage },
-    { path: "/finance/recurring/new", page: newRecurring },
-    { path: "/finance/recurring/:id", page: recurringDetail },
-    { path: "/finance/debts", page: debtsPage },
-    { path: "/finance/debts/new", page: newDebt },
-    { path: "/finance/debts/:id", page: debtDetail },
-    { path: "/finance/categories", page: financeCategoriesPage },
     { path: "/later", page: laterPage },
     { path: "/later/new", page: newLater },
     { path: "/later/:id", page: laterDetail },

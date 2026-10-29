@@ -27,10 +27,7 @@ import { PAGE_ITEM_TARGETS } from "./validation.js";
 // turns a pointer into an href. The item types are the ones the app already
 // routes to — a page adds no screen of its own to open.
 export const PAGE_ITEM_ROUTES = Object.freeze({
-    task: "/tasks",
-    session: "/sessions",
-    reference: "/later",
-    expense: "/finance/transactions"
+    reference: "/later"
 });
 
 // ---------------------------------------------------------------------- Read

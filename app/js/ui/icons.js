@@ -392,13 +392,10 @@ export function uiIcon(name, { className = "icon", size = null, flip = null } = 
 // header's button wears, three lines, because it is a list of what is in the list.
 export const NAV_ICON_NAMES = {
     "/": "home",
-    "/tasks": "tasks",
     "/routines": "repeat",
     "/later": "bookmark",
-    "/finance": "wallet",
     "/pages": "file",
     "/kanban": "kanban",
-    "/sessions": "clock",
     "/log": "history",
     "/reports": "chart",
     "/settings": "sliders",

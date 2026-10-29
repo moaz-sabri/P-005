@@ -32,10 +32,7 @@ export const PAGE_ITEM_ICONS = {
     text: "note",
     heading: "tag",
     divider: "minus",
-    task: "tasks",
-    session: "clock",
-    reference: "bookmark",
-    expense: "wallet"
+    reference: "bookmark"
 };
 
 // How long after the last keystroke a line saves itself. Long enough that

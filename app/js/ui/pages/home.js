@@ -1,16 +1,13 @@
-﻿import { h } from "../dom.js";
+import { h } from "../dom.js";
 import { t } from "../../i18n/i18n.js";
 import { store } from "../../app/store.js";
-import { MONEY_ICON_NAMES } from "../icons.js";
 import { formatShort, formatTime, formatDateLong, startOfDay } from "../../domain/time.js";
-import { formatMoney, formatSignedMoney } from "../../domain/money.js";
 import { toast } from "../components/toast.js";
 import { sessionService } from "../../services/session-service.js";
 import { routineService } from "../../services/routine-service.js";
 import { reportService } from "../../services/report-service.js";
 import { router } from "../../app/router.js";
 import { checkBackupReminder } from "../../services/backup-reminder.js";
-import { closeTask } from "../components/close-task.js";
 import { timeMeter } from "../components/display.js";
 import { routineRow } from "../components/routine-row.js";
 import { laterLabel } from "../../domain/later.js";
@@ -48,19 +45,19 @@ import {
 //
 // The order is the order of a morning: what is happening, what it cost, how much
 // of the day is gone, what is left to do, and then what has been happening
-// lately — which is the only one of the six a person is not asking about right
+// lately � which is the only one of the six a person is not asking about right
 // now, and it is last for that reason.
 //
-// It used to answer a dozen more — a fortnight of bars, a day streak, a week
+// It used to answer a dozen more � a fortnight of bars, a day streak, a week
 // average and session count, what was due next month, how many Later items were
-// waiting — and every one of them was a question for a screen whose whole job is
+// waiting � and every one of them was a question for a screen whose whole job is
 // to hold a summary. The rule this screen is built on is that a block appears
 // only when it has something true to say: an empty "Now" on a calm morning is a
 // heading above nothing, and a home screen you have to scroll to find out what is
 // happening today has stopped being a glance.
 //
-// It used to OPEN with a launcher — a title field, a Start button and two money
-// shortcuts — above everything else. That is controls above answers, on the one
+// It used to OPEN with a launcher � a title field, a Start button and two money
+// shortcuts � above everything else. That is controls above answers, on the one
 // screen a person opens to read rather than to compose, and it is now the app's
 // single add button in the corner (ui/components/add-button.js), which does the
 // same four things from anywhere in the app.
@@ -68,7 +65,7 @@ import {
 // Every block carries the door to the screen it summarises. A glance that cannot
 // be followed up is a dead end: the person reads "2h 40m" and has nowhere to go
 // with it. So the button is in the section's own header, it says where it goes,
-// and it is the destination's own name from the one navigation label table —
+// and it is the destination's own name from the one navigation label table �
 // which means the home screen and the menu cannot end up calling the same screen
 // two different things.
 export const home = {
@@ -86,14 +83,14 @@ export const home = {
             // Punctuation, not a word: hidden from anything reading the two values
             // aloud, so the time and the date are announced as two facts rather
             // than with a separator between them.
-            h("span", { class: "home-clock-sep", "aria-hidden": "true" }, "·"),
+            h("span", { class: "home-clock-sep", "aria-hidden": "true" }, "�"),
             clockDate
         );
 
         // ---- Now: running, and due ------------------------------------------
         // The one block whose box is a plain div rather than a `.list`: it holds
-        // CARDS, not rows — the running session and the due money side by side from
-        // the width two cards fit at — so a list inside it would put row hairlines
+        // CARDS, not rows � the running session and the due money side by side from
+        // the width two cards fit at � so a list inside it would put row hairlines
         // between two things that are not a list.
         //
         // Born hidden, like the three summaries below: this block is empty until
@@ -115,13 +112,12 @@ export const home = {
         // it and a door out of it, born hidden, and only the render pass decides
         // whether it has anything to say. The order they are appended below is the
         // order the glance is filled in, and it is the order of a morning.
-        const money = this.summary(t("home.money"), "wallet", "/finance");
         const hours = this.summary(t("home.hoursTitle"), "clock", "/reports");
 
         // ---- Today: routines and tasks --------------------------------------
         // The repeating things, and ONLY today's: a daily routine, and a weekly
         // one whose weekday is this one. A routine from another day is not on this
-        // screen at all — not greyed out, not marked late, not counted. A day the
+        // screen at all � not greyed out, not marked late, not counted. A day the
         // user did not repeat is a day, not a debt, and the home screen is where
         // that rule is easiest to keep.
         //
@@ -142,8 +138,8 @@ export const home = {
             hidden: true
         });
 
-        // The tasks, in the order domain/analytics.js decided — late first, then
-        // today, then pinned, then most used — which is why they come from the
+        // The tasks, in the order domain/analytics.js decided � late first, then
+        // today, then pinned, then most used � which is why they come from the
         // shared snapshot below and not from the store.
         const tasksBox = h("div", { class: "list" });
         const tasksSection = pageSection({
@@ -157,18 +153,15 @@ export const home = {
 
         this.routinesBox = routinesBox;
         this.routinesSection = routinesSection;
-        this.tasksBox = tasksBox;
-        this.tasksSection = tasksSection;
 
         // Every block the render pass draws into, in one place. The two that need a
-        // callback rather than a plain body — the clock is written by a timer, and
-        // these are written by an async read — are the reason this is an object
+        // callback rather than a plain body � the clock is written by a timer, and
+        // these are written by an async read � are the reason this is an object
         // rather than a list of local consts: a render pass that has been unmounted
         // finds `parts` null and writes into nothing, rather than into a closure
         // over nodes the router already replaced.
         this.parts = {
             now: { box: nowBox, section: nowSection },
-            money,
             hours,
             recent
         };
@@ -178,7 +171,7 @@ export const home = {
         // frame's, on the argument that a figure like "1,770.50" reads badly spread
         // across 1180px. What it needed was for a section's action to sit at the far
         // end of its line rather than beside its caption, so the ends of the lines
-        // lined up — which is now a rule about every section head rather than a
+        // lined up � which is now a rule about every section head rather than a
         // width for this one page. With the cap gone there is nothing left to add
         // here, and a second grid layer around the page would put a gap between the
         // page's own gap and the frame's, which is exactly the kind of invisible
@@ -186,15 +179,13 @@ export const home = {
         root.append(page(
             pageHead({ title: clock, icon: "home" }),
             nowSection,
-            money.section,
             hours.section,
             routinesSection,
-            tasksSection,
             recent.section
         ));
 
         // The wall clock turns once a minute, so the tick is a minute and not a
-        // second — this app's rule is little movement, and a clock ticking every
+        // second � this app's rule is little movement, and a clock ticking every
         // second is motion with nothing behind it. unmount() cancels it.
         this.stopClock = startClock((now) => {
             clockTime.textContent = formatTime(now);
@@ -204,11 +195,6 @@ export const home = {
         this.renderRoutines();
         this.loadGlance();
 
-        // Everything below the launcher is one snapshot, so it is drawn together
-        // and refreshed together. Reading the tasks from the store at mount time
-        // instead would be a second copy of the same list, free to disagree with
-        // the one the rest of the screen was computed from.
-        const offTasks = store.subscribe(s => s.tasks, () => this.loadGlance());
         // The running session, and only that: a timed routine is done when its
         // session ENDS, which is the one moment `active` changes, so this is the
         // subscription that makes a routine show itself as finished without the
@@ -216,9 +202,8 @@ export const home = {
         // so it needs no subscription at all.
         const offActive = store.subscribe(s => s.active, () => {
             this.renderRoutines();
-            this.loadGlance();
         });
-        this.unsubs = [offTasks, offActive];
+        this.unsubs = [offActive];
 
         checkBackupReminder();
     },
@@ -240,7 +225,7 @@ export const home = {
     // having to find the other in the DOM.
     //
     // BORN HIDDEN. The read that fills these boxes is a transaction over nine
-    // stores, so for a moment after the page appears they are empty — and a
+    // stores, so for a moment after the page appears they are empty � and a
     // section that starts visible and is hidden a moment later flashes its heading
     // over nothing, which is precisely the thing this screen is built not to do.
     // The render pass is the only thing that unhides one, and it does so in the same
@@ -328,10 +313,7 @@ export const home = {
             console.warn("home glance failed:", e);
         }
         if (this.glanceToken !== token || !this.parts) return;
-        this.renderNow(data);
-        this.renderMoney(data);
         this.renderHours(data);
-        this.renderTasks(data);
         this.renderRecent(data);
     },
 
@@ -367,7 +349,6 @@ export const home = {
                 sectionTitle(t("home.dueNow"), { icon: "calendar" }),
                 list(...due.map(item => listRow({
                     href: `/finance/recurring/${item.id}`,
-                    icon: MONEY_ICON_NAMES[item.type] ?? "wallet",
                     title: item.title,
                     meta: [
                         badge(formatMoney(item.amount, item.currency)),
@@ -382,7 +363,7 @@ export const home = {
             ));
         }
         // One card goes in alone; two share the row. `fill` rather than
-        // `replaceChildren(...parts)` for the reason it documents — an array handed
+        // `replaceChildren(...parts)` for the reason it documents � an array handed
         // to the native method is stringified, not spread.
         fill(box, parts.length === 1 ? parts[0] : cardGrid(...parts));
     },
@@ -398,7 +379,7 @@ export const home = {
         const { income, expenses, net, currency, debts } = data.money;
         const owed = debts?.open ?? 0;
         // A month with nothing in it is not a month whose net is zero, it is a
-        // month with no money in it — and four zeroes under a heading is a card
+        // month with no money in it � and four zeroes under a heading is a card
         // the reader has to get past to reach the next thing.
         if (!income && !expenses && !owed) {
             section.hidden = true;
@@ -415,9 +396,9 @@ export const home = {
             stat({ label: t("home.monthExpenses"), value: formatMoney(expenses, currency), icon: "moneyOut" }),
             stat({ label: t("home.monthIncome"), value: formatMoney(income, currency), icon: "moneyIn" }),
             // The one figure on this screen that can be genuinely bad news, so it
-            // is the one allowed to be in the red — and the one that has to CARRY
+            // is the one allowed to be in the red � and the one that has to CARRY
             // its sign. A month of 42.50 spent and nothing earned prints
-            // "−42.50" here, not "42.50": the sign is the answer, and the unsigned
+            // "?42.50" here, not "42.50": the sign is the answer, and the unsigned
             // formatter that every other amount here uses would answer the opposite
             // question.
             stat({
@@ -459,15 +440,15 @@ export const home = {
         section.hidden = false;
 
         fill(box,
-            // The expected figure is derived and never configured — see
-            // expectedDailyMs — so the bar is drawn only when there is an average
+            // The expected figure is derived and never configured � see
+            // expectedDailyMs � so the bar is drawn only when there is an average
             // to put a mark on. Without one the day's total stands on its own,
             // which is the honest reading of a first day.
             expected ? timeMeter({ todayMs: today.totalMs, expectedMs: expected.totalMs }) : null,
             h("p", { class: "muted small" }, todayLine(today)),
             // Where the average came from, in words. A figure the user cannot trace
             // back to anything is a figure they have to take on trust, and this one
-            // is derived rather than configured — so it says so.
+            // is derived rather than configured � so it says so.
             expected ? h("p", { class: "muted small" }, t("home.expectedNote")) : null
         );
     },
@@ -480,8 +461,8 @@ export const home = {
         if (!box || !section) return;
         if (!data) return box.replaceChildren(h("p", { class: "muted small" }, t("common.loading")));
 
-        // The empty state is a real answer — "you have no tasks" is what this
-        // section is for — so unlike the summary blocks it is shown rather than
+        // The empty state is a real answer � "you have no tasks" is what this
+        // section is for � so unlike the summary blocks it is shown rather than
         // hidden. What is never shown is the heading over an empty box.
         section.hidden = false;
 
@@ -507,10 +488,8 @@ export const home = {
             actions: [
                 rowAction({ label: t("home.startTask"), icon: "play", tone: "primary", onClick: () => this.start(task.id) }),
                 rowAction({
-                    label: t("home.closeTask"),
                     icon: "check",
                     onClick: async () => {
-                        await closeTask(task);
                         this.loadGlance();
                     }
                 })
@@ -526,7 +505,7 @@ export const home = {
         const { box, section } = part;
         if (!data) return box.replaceChildren(h("p", { class: "muted small" }, t("common.loading")));
 
-        // Five, which is the limit `recentAdditions` derives with — a sixth is a
+        // Five, which is the limit `recentAdditions` derives with � a sixth is a
         // list that has stopped being a glance, and every one of them is one tap
         // from the screen this block's door leads to.
         const recent = data.recent;
@@ -564,20 +543,20 @@ export const home = {
  * Icon-only, with the destination's OWN name from the navigation's one label
  * table as the tooltip and the accessible name. Not a word: the section header
  * already says what the block is, and "Tasks" printed at the end of a heading
- * that says "Today's tasks" is the same fact twice — while an unlabelled chevron
+ * that says "Today's tasks" is the same fact twice � while an unlabelled chevron
  * is nothing a screen reader can announce.
  *
  * Reading the label out of NAV_LABELS rather than passing one in is the point: the
  * home screen and the menu call the same screen by the same name because there is
  * only one table, not because two files happened to agree.
  *
- * The one destination that is not in that table is /session — the session in
+ * The one destination that is not in that table is /session � the session in
  * progress, which is a screen and not a section, so it is not in the menu and has
  * no row of its own. Its name is passed for exactly that reason: there is no
  * second table for the handful of screens that are not sections.
  */
-function goTo(href, labelKey = NAV_LABELS[href]) {
-    const label = t(labelKey);
+function goTo(href, labelKey = NAV_LABELS[href] || "") {
+    const label = t(labelKey || "");
     return action({ label: null, icon: "chevronRight", href, title: label, ariaLabel: label });
 }
 
@@ -585,14 +564,14 @@ function goTo(href, labelKey = NAV_LABELS[href]) {
  * Is this task past a day that has already gone by?
  *
  * The decision, separated from the badge, because it is a fact about a DATE and
- * the badge is a claim about it — and because a rule this app states in words
+ * the badge is a claim about it � and because a rule this app states in words
  * should be testable without a DOM. The boundary is the START of today rather than
  * the clock: a task planned for 23:00 tonight is planned for today, and calling it
  * overdue at nine in the morning would be the app disagreeing with the user's own
  * plan about the same day.
  *
  * A task with no planned date has nothing to be late for, which is not the same as
- * being on time — which is why this answers false and the badge is omitted, rather
+ * being on time � which is why this answers false and the badge is omitted, rather
  * than one answering "on time" for a task nobody scheduled.
  */
 export function isLate(plannedAt, now = Date.now()) {
@@ -606,7 +585,7 @@ export function isLate(plannedAt, now = Date.now()) {
  * `h()` filters null out of its own children, and `replaceChildren` does NOT: it is
  * the native DOM method, it does not flatten an array, and it stringifies anything
  * that is not a Node. So `box.replaceChildren(maybeBar, line, maybeNote)` with a
- * null in the middle writes the literal text "null" into the page — which is not a
+ * null in the middle writes the literal text "null" into the page � which is not a
  * cosmetic failure on a screen whose whole rule is "a block says only what is
  * true".
  *
@@ -642,7 +621,7 @@ function todayLine(today) {
  * than running on a fixed interval, because an interval accumulates drift and a
  * clock up to half a minute late is a clock nobody trusts.
  *
- * Returns the cancel function, which unmount() calls — a page that navigated away
+ * Returns the cancel function, which unmount() calls � a page that navigated away
  * must not keep a timer alive writing into a node nobody is looking at.
  */
 function startClock(write) {
@@ -663,16 +642,13 @@ function startClock(write) {
 // glyph it is drawn with. One table for both, because a row whose link opens one
 // screen and whose icon belongs to another is a row nobody can scan.
 const RECENT_TARGETS = {
-    task: { icon: "tasks", href: id => `/tasks/${id}` },
-    session: { icon: "clock", href: id => `/sessions/${id}` },
-    transaction: { icon: "wallet", href: id => `/finance/transactions/${id}` },
     later: { icon: "bookmark", href: id => `/later/${id}` },
     routine: { icon: "repeat", href: id => `/routines/${id}` },
     page: { icon: "file", href: id => `/pages/${id}` }
 };
 
 // What a row is labelled with. A free session and an untitled page have no name of
-// their own, so each is named by the thing it is — and a row with no label at all
+// their own, so each is named by the thing it is � and a row with no label at all
 // is worse than one that says "Untitled", because an empty row is a gap in a list
 // the reader is scanning.
 function recentTitle(item) {
@@ -685,7 +661,7 @@ function recentTitle(item) {
 // The live session, as a line rather than a stage: the stage belongs to the
 // session page, and the home screen's job here is to say "one is running" and get
 // out of the way. The elapsed figure is the one that moves, so it is the one that
-// is here — a card that shows a frozen 0:00 would be worse than nothing.
+// is here � a card that shows a frozen 0:00 would be worse than nothing.
 function runningSummary(active) {
     const elapsed = active.segments.reduce(
         (a, s) => a + Math.max(0, (s.end ?? Date.now()) - s.start),

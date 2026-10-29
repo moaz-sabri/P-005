@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Notes — Local-first notes, routines and habits</title>
+  <meta name="description" content="Notes is a local-first application for notes, follow-ups, routines, habits, pages, kanban organization, and reports. Your data stays on your device.">
+  <style>
+    :root { color-scheme: light dark; --bg:#0b0b0c; --fg:#f5f5f7; --muted:#a3a3a3; --card:#1a1a1d; --accent:#3b82f6; }
+    @media (prefers-color-scheme: light) { :root { --bg:#ffffff; --fg:#111111; --muted:#555555; --card:#f4f4f5; --accent:#2563eb; } }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:var(--bg); color:var(--fg); line-height:1.6; }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 32px 20px; }
+    header { padding: 48px 0 24px; }
+    h1 { font-size: 42px; margin: 0 0 12px; }
+    .lead { font-size: 20px; color: var(--muted); max-width: 640px; }
+    .badges { margin-top: 20px; display:flex; gap:12px; flex-wrap:wrap; }
+    .badge { padding:6px 12px; border:1px solid var(--muted); border-radius:999px; font-size:13px; color:var(--muted); }
+    section { margin: 48px 0; }
+    h2 { font-size: 26px; margin: 0 0 16px; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap:16px; }
+    .card { background:var(--card); border-radius:12px; padding:18px; }
+    .card h3 { margin:0 0 6px; font-size:17px; }
+    .card p { margin:0; color:var(--muted); font-size:14px; }
+    pre { background:var(--card); padding:16px; border-radius:12px; overflow:auto; }
+    code { font-family: ui-monospace, Menlo, Consolas, monospace; }
+    footer { color:var(--muted); font-size:13px; margin: 48px 0 24px; }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Notes</h1>
+      <p class="lead">A simple, local-first application for notes, follow-ups, routines and habits, pages, kanban organization, and reports. Your data stays on your device unless you choose to sync.</p>
+      <div class="badges">
+        <span class="badge">Local-first</span>
+        <span class="badge">Offline-ready PWA</span>
+        <span class="badge">Optional encrypted sync</span>
+        <span class="badge">No tracking</span>
+      </div>
+    </header>
+
+    <section>
+      <h2>What Notes does</h2>
+      <div class="grid">
+        <div class="card"><h3>Later</h3><p>Things to follow up on, with a date to come back to them.</p></div>
+        <div class="card"><h3>Routines &amp; habits</h3><p>Counters and timed routines with activity reports.</p></div>
+        <div class="card"><h3>Pages</h3><p>Notes and lists that hold more than a task line, with pointers to records.</p></div>
+        <div class="card"><h3>Kanban</h3><p>A general board over Later/Page references with have/working/done/deferred columns.</p></div>
+        <div class="card"><h3>Attachments</h3><p>Descriptions travel on sync; bytes stay on the device.</p></div>
+        <div class="card"><h3>Reports</h3><p>Where your routine time and activity actually went.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Run locally</h2>
+      <pre><code>npm ci
+npm run build
+npm run dev</code></pre>
+      <p>Open <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>. Requires Node.js &gt;= 20 and PHP &gt;= 8.0 with pdo_sqlite and mbstring.</p>
+    </section>
+
+    <section>
+      <h2>Privacy</h2>
+      <p>Your records live in this browser's IndexedDB by default. There is no analytics or tracking. Sync is optional, off by default, and end-to-end encrypted.</p>
+    </section>
+
+    <footer>
+      Notes is licensed under AGPL-3.0-or-later. Source and documentation in this repository.
+    </footer>
+  </div>
+</body>
+</html>

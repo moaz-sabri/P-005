@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Integration test suite for the Tadkhir sync API.
+ * Integration test suite for the Notes sync API.
  *
  * Boots the API on a random local port via PHP's built-in server with an
  * isolated SQLite database, then drives it over HTTP (cookie-aware). Run with:

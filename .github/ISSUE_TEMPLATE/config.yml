@@ -10,9 +10,9 @@ contact_links:
   - name: Security vulnerability — do not file a public issue
     url: https://moazsabri.org
     about: Goes straight to the maintainer, privately. Read SECURITY.md first.
-  - name: Question about using, installing, or hosting Tadkhir
-    url: https://github.com/moaz-sabri/tadkhir/discussions
+  - name: Question about using, installing, or hosting Notes
+    url: https://github.com/moaz-sabri/notes/discussions
     about: How-do-I questions, hosting, and self-hosting belong in Discussions.
   - name: Contributing
-    url: https://github.com/moaz-sabri/tadkhir/blob/master/CONTRIBUTING.md
+    url: https://github.com/moaz-sabri/notes/blob/master/CONTRIBUTING.md
     about: The review criterion, the fork-and-pull-request flow, and what a pull request needs.

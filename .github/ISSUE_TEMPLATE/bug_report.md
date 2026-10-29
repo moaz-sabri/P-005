@@ -18,7 +18,7 @@ labels: bug
 
 **Environment**
 
-- Tadkhir version (Settings → Version):
+- Notes version (Settings → Version):
 - Browser and version:
 - Device / OS:
 - Deployment: Docker / nginx + PHP-FPM / local `npm run dev`

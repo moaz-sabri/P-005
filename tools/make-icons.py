@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Rasterise Tadkhir's icon geometry to PNG, stdlib only.
+"""Rasterise Notes's icon geometry to PNG, stdlib only.
 
 The mark is an open ring with a solid dot sitting in its gap: a day is a
 cycle, and the dot is the one thing in it worth keeping. Every asset is drawn

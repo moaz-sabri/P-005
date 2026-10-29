@@ -2,9 +2,7 @@ import { withTx } from "../data/db.js";
 import { reader } from "../data/stores.js";
 import { activityLog, LOG_KINDS } from "../domain/analytics.js";
 
-const tasks = reader("task");
 const sessions = reader("session");
-const transactions = reader("transaction");
 const later = reader("later");
 const routines = reader("routine");
 const routineLogs = reader("routineLog");
@@ -30,12 +28,10 @@ export const logService = {
         const to = now;
         const from = startOfDayWindow(days, now);
         const data = await withTx(
-            ["tasks", "sessions", "transactions", "later", "routines", "routineLogs"],
+            ["sessions", "later", "routines", "routineLogs"],
             "readonly",
             async r => ({
-                tasks: await tasks(r).getAll(),
                 sessions: await sessions(r).getAll(),
-                transactions: await transactions(r).getAll(),
                 later: await later(r).getAll(),
                 routines: await routines(r).getAll(),
                 routineLogs: await routineLogs(r).getAll()

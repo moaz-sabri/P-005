@@ -7,8 +7,8 @@
 // unable to find the key that opens it — at which point it refuses to read
 // anything. A product rename touches the line below and nothing else.
 export const DB_NAME = "task-timer";
-export const DB_VERSION = 10;
-export const APP_NAME = "Tadkhir";
+export const DB_VERSION = 1;
+export const APP_NAME = "Notes";
 export const APP_VERSION = "1.3.0";
 export const BACKUP_REMINDER_DAYS = 30;
 

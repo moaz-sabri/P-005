@@ -238,12 +238,10 @@ export const kanbanPage = {
          */
         async function openPicker() {
             const answer = await dialog.choose("kanban.addPrompt", [
-                { label: "kanban.addFromTasks", value: "tasks", icon: "tasks", class: "primary" },
                 { label: "kanban.addFromLater", value: "later", icon: "bookmark" },
                 { label: "common.cancel", icon: "close" }
             ]);
-            if (answer === "tasks") router.navigate("/tasks");
-            else if (answer === "later") router.navigate("/later");
+            if (answer === "later") router.navigate("/later");
         }
 
         // -------------------------------------------------- drawing
@@ -368,7 +366,6 @@ export const kanbanPage = {
 /** The glyph that says where a card came from. One per service, never generic. */
 function serviceIcon(service) {
     switch (service) {
-        case "tasks": return "tasks";
         case "later": return "bookmark";
         case "pages": return "file";
         default: return "inbox";

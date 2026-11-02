@@ -20,6 +20,8 @@ require_once __DIR__ . '/db.php';
  */
 const TASK_TIMER_STORES = [
     'session', 'event', 'meta',
+    'task',
+    'transaction', 'recurring', 'debt', 'debtPayment', 'category', 'person',
     'later',
     'page', 'pageItem',
     'kanbanItem',

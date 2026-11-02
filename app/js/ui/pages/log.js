@@ -164,9 +164,7 @@ const LOG_WINDOWS = [
 // a row nobody can scan.
 const LOG_TARGETS = {
     session: { icon: "clock", href: id => `/sessions/${id}` },
-    transaction: { icon: "wallet", href: id => `/finance/transactions/${id}` },
     routine: { icon: "repeat", href: id => `/routines/${id}` },
-    task: { icon: "tasks", href: id => `/tasks/${id}` },
     later: { icon: "bookmark", href: id => `/later/${id}` }
 };
 
@@ -184,11 +182,7 @@ function logBadge(item) {
             ? badge(t("log.cancelled"), { icon: "close", tone: "danger" })
             : badge(formatShort(item.actualMs || 0), { icon: "clock" });
     }
-    if (item.kind === "transaction") {
-        return badge(formatMoney(item.amount, item.currency), {
-            icon: MONEY_ICON_NAMES[item.moneyType] ?? "wallet"
-        });
-    }
+    // (no finance kinds remain)
     if (item.kind === "routine") {
         return badge(counterRatio(item.count, item.target), { icon: "target" });
     }

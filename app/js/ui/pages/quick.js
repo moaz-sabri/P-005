@@ -3,7 +3,7 @@ import { router } from "../../app/router.js";
 import { store } from "../../app/store.js";
 import { peekShare, sharePrefill } from "../../app/share-payload.js";
 import { sessionService } from "../../services/session-service.js";
-import { MONEY_ICON_NAMES } from "../icons.js";
+
 import { toast } from "../components/toast.js";
 // trimmed
 import { pageTall, pageHead, targetGrid, target, rowAction } from "../components/ui.js";
@@ -33,9 +33,7 @@ import { pageTall, pageHead, targetGrid, target, rowAction } from "../components
 // first navigation, which is the same trap the share target parks its payload
 // to get out of.
 const DESTINATIONS = {
-    note: "/later/new",
-    income: "/finance/transactions/new/income",
-    expense: "/finance/transactions/new/expense"
+    note: "/later/new"
 };
 export const quickPage = {
     title: () => t("quick.title"),
@@ -87,16 +85,6 @@ export const quickPage = {
                     name: t("quick.writeNote"),
                     icon: "bookmark",
                     onClick: () => run("note", parked)
-                }),
-                target({
-                    name: t("quick.addIncome"),
-                    icon: MONEY_ICON_NAMES.income,
-                    onClick: () => run("income", parked)
-                }),
-                target({
-                    name: t("quick.addExpense"),
-                    icon: MONEY_ICON_NAMES.expense,
-                    onClick: () => run("expense", parked)
                 })
             ], { fill: true })
         ));

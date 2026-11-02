@@ -172,7 +172,6 @@ export function renumber(items) {
 export function hrefFor(item) {
     if (!item?.originalId) return null;
     switch (item.service) {
-        case "tasks": return `/tasks/${item.originalId}`;
         case "later": return `/later/${item.originalId}`;
         case "pages": return `/pages/${item.originalId}`;
         default: return null;

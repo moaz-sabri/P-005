@@ -406,7 +406,7 @@ export function notFoundView(root = null) {
         h("p", { class: "muted" }, t("notFound.hint")),
         toolbar(
             action({ label: t("nav.home"), icon: "home", tone: "primary", href: "/" }),
-            action({ label: t("nav.tasks"), icon: "tasks", href: "/tasks" })
+            action({ label: t("nav.later"), icon: "bookmark", href: "/later" })
         )
     );
     if (root) root.replaceChildren(view);

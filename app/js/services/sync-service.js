@@ -715,14 +715,33 @@ export const syncService = {
     // the same act, down to which failure clears the keys again.
     async createKey({ password, ownerCode }) {
         let cfg = await this.getConfig();
+        let freshlyGenerated = false;
         if (!cfg.code) {
             const newCode = generateSpaceCode();
             await writeMeta(SYNC_CONFIG_KEY, { ...cfg, deviceId: await ensureDeviceId(), code: newCode });
             cfg = await this.getConfig();
+            freshlyGenerated = true;
         }
         const created = await authService.createSpace({ code: cfg.code, password });
         if (!created.ok) return created;
-        const connect = await this.connectSpaceToServer(cfg.code, password, cfg);
+        // A brand-new code cannot exist on the server yet, so probing auth/open
+        // first only produces a guaranteed 401 (and a console error / rate-limit
+        // charge) before the real auth/create. Skip the probe in that case and go
+        // straight to create; keep the probe for a retry of a partially-created
+        // space, where the code may already be registered.
+        let connect;
+        if (freshlyGenerated) {
+            const device = { id: cfg.deviceId, label: cfg.deviceName || undefined };
+            try {
+                const createdRes = await fetchJson("auth/create", { code: cfg.code, password, device });
+                connect = { ok: true, res: createdRes };
+            } catch (createErr) {
+                const createCode = createErr?.code || "server_error";
+                connect = { ok: false, code: createCode };
+            }
+        } else {
+            connect = await this.connectSpaceToServer(cfg.code, password, cfg);
+        }
         // An offline or unreachable server is not a failure here: the key is
         // already created and stored, sync will pick the space up on its own
         // schedule, and refusing to finish setup because the network was down

@@ -6,7 +6,7 @@ import { peekShare, stashShare, takeShare, hasContent, hasToken, sharePrefill } 
 import { laterService } from "../../services/later-service.js";
 import { sessionService } from "../../services/session-service.js";
 import { readSharedShare, releaseSharedShare } from "../../services/share-intake.js";
-import { MONEY_ICON_NAMES } from "../icons.js";
+
 import { toast } from "../components/toast.js";
 import { formatBytes } from "../components/attachments.js";
 import { page, pageHead, card, sectionTitle, targetGrid, target, toolbar, action } from "../components/ui.js";
@@ -63,18 +63,6 @@ export const sharePage = {
             : h("div", {}, filesSlot);
 
         const grid = targetGrid([
-            target({
-                name: t("share.addIncome"),
-                hint: t("share.addIncomeHint"),
-                icon: MONEY_ICON_NAMES.income,
-                href: "/finance/transactions/new/income"
-            }),
-            target({
-                name: t("share.addExpense"),
-                hint: t("share.addExpenseHint"),
-                icon: MONEY_ICON_NAMES.expense,
-                href: "/finance/transactions/new/expense"
-            }),
             target({
                 name: live ? t("share.openSession") : t("share.startSession"),
                 hint: live ? t("share.openSessionHint") : t("share.startSessionHint"),

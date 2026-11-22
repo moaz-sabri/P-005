@@ -20,7 +20,9 @@ import { probeMedia, probeImage, shrinkPhoto } from "../app/capture.js";
 // random bits, good for ten minutes, unreadable to anyone who does not have the
 // URL, and it is never written into a link the app renders.
 
-const INTAKE = "/api/share/intake";
+// Server-backed share intake is intentionally unavailable in local-only mode.
+// Text sharing still works through the browser's normal share/paste flow.
+const INTAKE = null;
 
 
 
@@ -45,6 +47,11 @@ function codeFor(status) {
  * same selection, which is the wrong trade in both directions.
  */
 export async function readSharedShare(token) {
+    if (!INTAKE) {
+        const error = new Error("local_only");
+        error.code = "local_only";
+        throw error;
+    }
     if (typeof token !== "string" || !/^[a-f0-9]{32}$/.test(token)) return null;
 
     let meta;
@@ -166,6 +173,7 @@ export async function readSharedShare(token) {
  * error message.
  */
 export function releaseSharedShare(token) {
+    if (!INTAKE) return;
     if (typeof token !== "string" || !/^[a-f0-9]{32}$/.test(token)) return;
     try {
         fetch(`${INTAKE}?t=${encodeURIComponent(token)}`, {

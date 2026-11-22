@@ -165,7 +165,12 @@ export const authService = {
 // server's error code instead of collapsing every failure into "network": the
 // caller (rotateSession) decides whether the session is still alive from what
 // comes back, and a swallowed 401 reads exactly like a successful rotation.
+// This application is local-only. Keep the legacy auth implementation
+// available for importing old data, but make accidental network use impossible.
+const LOCAL_ONLY = true;
+
 async function fetchJson(path, body) {
+    if (LOCAL_ONLY) return { ok: false, code: "local_only" };
     let res;
     try {
         res = await fetch(`/api/${path}`, {

@@ -143,6 +143,7 @@ function scheduleEventSync() {
 // TOLD the answer is not served by the word "done". The loop that calls this on
 // its own passes nothing and pays nothing.
 async function syncNowInternal(detail = null) {
+    if (LOCAL_ONLY) return { ok: false, code: "local_only" };
     if (syncing) return { ok: false, code: "busy" };
     syncing = true;
     try {
@@ -228,6 +229,7 @@ async function trySessionReauth() {
 }
 
 async function fetchJson(path, body, method = "POST") {
+    if (LOCAL_ONLY) throw makeError("local_only");
     let res;
     try {
         res = await fetch(`${API_BASE}/${path}`, {
@@ -510,6 +512,7 @@ export const syncService = {
     async pendingCount() { return withTx(["outbox"], "readonly", r => outboxRepo(r.outbox).getAll()).then(a => a.length); },
 
     async createSpace({ code, password }) {
+        if (LOCAL_ONLY) return { ok: false, code: "local_only" };
         const cfg = await this.ensureConfig();
         if (!cfg) return { ok: false, code: "not_configured" };
         try {
@@ -534,6 +537,7 @@ export const syncService = {
     },
 
     async openSpace({ code, password }) {
+        if (LOCAL_ONLY) return { ok: false, code: "local_only" };
         const cfg = await this.ensureConfig();
         if (!cfg) return { ok: false, code: "not_configured" };
         try {
@@ -561,6 +565,7 @@ export const syncService = {
     // if the space isn't on this server yet, bootstraps it via auth/create so an
     // imported/exported secret key can connect from a fresh device.
     async connectSpaceToServer(code, password, cfg) {
+        if (LOCAL_ONLY) return { ok: false, code: "local_only" };
         const device = { id: cfg.deviceId, label: cfg.deviceName || undefined };
         try {
             const res = await fetchJson("auth/open", { code, password, device });
@@ -582,6 +587,7 @@ export const syncService = {
     },
 
     async rotateSession() {
+        if (LOCAL_ONLY) return { ok: false, code: "local_only" };
         const cfg = await readMeta(SYNC_CONFIG_KEY, null) || {};
         if (!cfg?.code) return { ok: false, code: "not_configured" };
         const res = await authService.rotateSession(cfg.code, cfg.deviceId);
@@ -699,7 +705,11 @@ export const syncService = {
     },
 
     async logout() {
-        try { await fetchJson("auth/logout", {}); } catch { /* ignore */ }
+        // Local-only builds never create a server session, so logout must not
+        // make a network request either.
+        if (!LOCAL_ONLY) {
+            try { await fetchJson("auth/logout", {}); } catch { /* ignore */ }
+        }
         stopSyncLoop();
         clearBackoff();
         if (eventSyncTimer) { clearTimeout(eventSyncTimer); eventSyncTimer = null; }

@@ -18,6 +18,29 @@ const T_LATER = "later";
 
 const now = () => Date.now();
 
+async function ensureKanbanCard(item) {
+    try {
+        const { kanbanService } = await import("./kanban-service.js");
+        await kanbanService.addFromOriginal(item, { service: "later" });
+    } catch (error) {
+        // A board quota or a temporary board transaction must not make the
+        // original follow-up disappear. The next board open can repair it.
+        console.warn("Could not create automatic Kanban card", error);
+    }
+}
+
+async function reflectCompletionOnKanban(item, done) {
+    try {
+        const { kanbanService } = await import("./kanban-service.js");
+        const card = await kanbanService.findByOriginalKey(`later:${item.id}`);
+        if (card && card.status !== (done ? "done" : "have")) {
+            await kanbanService.move(card.id, done ? "done" : "have");
+        }
+    } catch (error) {
+        console.warn("Could not update automatic Kanban card", error);
+    }
+}
+
 function notify() {
     bus.emit("data-changed");
     broadcastChange();
@@ -59,6 +82,9 @@ export const laterService = {
             await later(r).put(item);
         });
         await syncService.enqueue(T_LATER, item.id, "upsert", item);
+        // Every follow-up is a board item from the moment it is created. The
+        // board is a view of work, not a second inbox that needs manual copying.
+        await ensureKanbanCard(item);
         notify();
         return item;
     },
@@ -80,6 +106,7 @@ export const laterService = {
         const item = { ...current, ...x, completedAt: current.completedAt, updatedAt: at };
         await withTx(["later"], "readwrite", r => later(r).put(item));
         await syncService.enqueue(T_LATER, id, "upsert", item);
+        await reflectCompletionOnKanban(item, Boolean(done));
         notify();
         return item;
     },

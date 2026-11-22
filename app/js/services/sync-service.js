@@ -21,6 +21,10 @@ import * as cryptoService from "./crypto-service.js";
 import { authService } from "./auth-service.js";
 
 const API_BASE = "/api";
+// The application is intentionally local-only. The sync implementation remains
+// available for reading old files and future migration work, but normal app
+// writes must never create an outbox or contact the PHP API.
+const LOCAL_ONLY = true;
 
 // The repos, one per synced store, looked up by STORE name. The record types
 // themselves — the vocabulary shared with the server, the migrations, the
@@ -606,6 +610,7 @@ export const syncService = {
     },
 
     async setup() {
+        if (LOCAL_ONLY) return;
         if (typeof window === "undefined") return;
         // Idempotent, and it has to be: setup() adds four listeners and a timer,
         // and calling it twice would leave a second interval running behind the
@@ -671,6 +676,7 @@ export const syncService = {
      * single-record form does.
      */
     async enqueueMany(entries) {
+        if (LOCAL_ONLY) return;
         if (!Array.isArray(entries) || entries.length === 0) return;
         const stamped = entries.map(e => ({
             key: `${e.type}:${e.id}`,

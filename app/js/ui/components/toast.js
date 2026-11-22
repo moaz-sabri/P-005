@@ -26,7 +26,12 @@ export const toast = {
         // whose buzzes stop being read.
         if (typeof key === "string" && key.startsWith("error.")) haptics.do("error");
         clearTimeout(timer);
-        root.replaceChildren(h("div", { class: "toast" }, t(key, params)));
+        const translated = t(key, params);
+        // Never expose an internal translation key to the user. This also
+        // provides a safe fallback while a newly introduced error is being
+        // added to both language tables.
+        const message = translated === key ? t("error.unexpected") : translated;
+        root.replaceChildren(h("div", { class: "toast" }, message));
         timer = setTimeout(() => {
             timer = null;
             root.replaceChildren();

@@ -43,8 +43,10 @@ export async function markOnboardingSeen() {
 // has no way to argue with it. Restrictive only costs a new user one extra trip
 // through Settings, which is where every one of these choices lives anyway.
 export async function shouldRunOnboarding({ hasKeys, taskCount }) {
-    if (await hasSeenOnboarding()) return false;
-    if (hasKeys) return false;
-    if (taskCount > 0) return false;
-    return true;
+    // Notes is local-first and no longer requires a sync key or a server space
+    // before it can be used. Data is kept in IndexedDB and can be moved with
+    // the Backup/Restore controls in Settings. Keep the old onboarding code in
+    // place for backwards compatibility with existing imports, but do not put
+    // a new local user through a cloud-sync setup flow.
+    return false;
 }

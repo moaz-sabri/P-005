@@ -269,13 +269,7 @@ export const kanbanPage = {
             if (!isEmpty) return;
             empty.replaceChildren(
                 emptyState(t("kanban.empty"), {
-                    icon: "kanban",
-                    action: action({
-                        label: t("kanban.addFromList"),
-                        icon: "plus",
-                        tone: "primary",
-                        onClick: openPicker
-                    })
+                    icon: "kanban"
                 })
             );
         }
@@ -306,15 +300,7 @@ export const kanbanPage = {
         root.append(page(
             pageHead({
                 title: t("kanban.title"),
-                icon: "kanban",
-                actions: [
-                    action({
-                        label: t("kanban.addFromList"),
-                        icon: "plus",
-                        tone: "primary",
-                        onClick: openPicker
-                    })
-                ]
+                icon: "kanban"
             }),
             pageSection({ body: boardHost })
         ));

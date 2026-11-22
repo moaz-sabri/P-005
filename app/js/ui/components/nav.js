@@ -44,7 +44,8 @@ export const NAV_LABELS = {
     "/kanban": "nav.kanban",
     "/log": "nav.log",
     "/reports": "nav.reports",
-    "/settings": "nav.settings"
+    "/settings": "nav.settings",
+    "/help": "nav.help"
 };
 
 /** The layers, in priority order, and the destinations in each. This is the
@@ -60,7 +61,7 @@ export const NAV_LABELS = {
 export const NAV_LAYERS = Object.freeze([
     { key: "nav.groupServices", icon: "bookmark", paths: ["/later", "/routines"] },
     { key: "nav.groupTools", icon: "file", paths: ["/pages", "/kanban", "/log", "/reports"] },
-    { key: "nav.groupManage", icon: "sliders", paths: ["/settings"] }
+    { key: "nav.groupManage", icon: "sliders", paths: ["/settings", "/help"] }
 ]);
 
 /** Where the same list lives as a page of its own. Not a service: it is the menu

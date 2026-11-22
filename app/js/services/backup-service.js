@@ -168,6 +168,33 @@ function normalizeRoutines(data) {
 }
 
 export const backupService = {
+    /** Export a portable, unencrypted local snapshot for simple file storage. */
+    async exportPlain() {
+        const rawData = await withTx([...BACKUP_STORES, "meta"], "readonly", async r => ({
+            app: "task-timer",
+            version: 1,
+            format: "local-json",
+            exportedAt: new Date().toISOString(),
+            ...(await readAllRecords(r)),
+            settings: (await metaRepo(r.meta).get("settings"))?.value || {}
+        }));
+        const blob = new Blob([JSON.stringify(rawData, null, 2)], { type: "application/json" });
+        await withTx(["meta"], "readwrite", r => metaRepo(r.meta).set("lastBackup", Date.now()));
+        return { ok: true, blob, filename: `notes-local-${new Date().toISOString().slice(0, 10)}.json` };
+    },
+
+    /** Validate a portable local snapshot without changing the current data. */
+    async parsePlain(text) {
+        if (new Blob([text]).size > MAX_IMPORT_BYTES) throw new ImportError("too_large");
+        let data;
+        try { data = JSON.parse(text); } catch { throw new ImportError("not_json"); }
+        if (!data || data.app !== "task-timer" || data.format !== "local-json") {
+            throw new ImportError("invalid_format");
+        }
+        assertImportShape(data);
+        return { data: { ...normalizeImport(data), ...normalizeLater(data), ...normalizePages(data), ...normalizeKanban(data), ...normalizeRoutines(data) } };
+    },
+
     /**
      * Export all data encrypted with the master key.
      *

@@ -23,6 +23,7 @@ import { logPage } from "./ui/pages/log.js";
 import { morePage } from "./ui/pages/more.js";
 import { settingsPage } from "./ui/pages/settings.js";
 import { installPage } from "./ui/pages/install.js";
+import { helpPage } from "./ui/pages/help.js";
 import { notFound } from "./ui/pages/not-found.js";
 import { renderNav } from "./ui/components/nav.js";
 import { sessionStrip } from "./ui/components/session-strip.js";
@@ -85,6 +86,7 @@ defineRoutes([
     // the reason this page is not the way people get around.
     { path: "/more", page: morePage },
     { path: "/settings", page: settingsPage },
+    { path: "/help", page: helpPage },
     // Under Settings rather than in the list of sections: installing is something
     // a person does once, and a list that carried it would spend a row on a screen
     // most people never open. See the note at the top of ui/pages/install.js.

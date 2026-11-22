@@ -9,8 +9,6 @@ import { laterForm } from "../components/later-form.js";
 import { laterRow } from "../components/later-row.js";
 import { toast } from "../components/toast.js";
 import { dialog } from "../components/dialog.js";
-import { kanbanService } from "../../services/kanban-service.js";
-import { haptics } from "../../app/haptics.js";
 import {
     page,
     pageHead,
@@ -155,17 +153,6 @@ export const laterPage = {
             const { open, done } = await laterService.list();
             const thumbsById = await loadThumbs([...open, ...done]);
 
-            // Which of these are already on the board. Read once per render rather
-            // than per row: the board is one store, and asking it four times for
-            // four rows is four transactions to learn one fact.
-            const onBoard = new Set(
-                (await Promise.all(
-                    [...open, ...done].map(item =>
-                        kanbanService.has(`later:${item.id}`).then(yes => (yes ? item.id : null))
-                    )
-                )).filter(Boolean)
-            );
-
             // The open list is either rows or the empty state, never both: two
             // empty states could not both be true, and the one here used to be
             // rendered inside the list while the section title stayed above it.
@@ -178,8 +165,7 @@ export const laterPage = {
                 openBox.replaceChildren(list(...open.map(item => laterRow(item, {
                     thumbUrl: thumbsById.get(item.id) ?? null,
                     onDone: () => setDone(item, true),
-                    onDelete: () => remove(item),
-                    onAddToBoard: onBoard.has(item.id) ? null : () => addToBoard(item)
+                    onDelete: () => remove(item)
                 }))));
             }
 
@@ -225,18 +211,6 @@ export const laterPage = {
                 // laterService.remove also takes the board's card off the board, so
                 // deleting an item cannot leave a card pointing at nothing.
                 await laterService.remove(item.id);
-                await render();
-            } catch (e) { toast.show(`error.${e?.code || "unexpected"}`); }
-        };
-
-        // The one door into the board from a Later list. The item itself is not
-        // touched and not copied: what is added is a pointer, and the card reads
-        // its label from this record whenever the board is drawn.
-        const addToBoard = async item => {
-            try {
-                await kanbanService.addFromOriginal(item, { service: "later" });
-                haptics.do("ack");
-                toast.show("kanban.added");
                 await render();
             } catch (e) { toast.show(`error.${e?.code || "unexpected"}`); }
         };
@@ -294,7 +268,11 @@ export const newLater = {
                     const saved = await laterService.create(patch);
                     await attachmentService.commit(saved.id, files ?? []);
                     router.navigate(BASE);
-                } catch (e) { toast.show(`error.${e?.code || "unexpected"}`); }
+                } catch (e) {
+                    console.error("Could not save Later item", e);
+                    const code = e?.code || "unexpected";
+                    toast.show(`error.${code === "unexpected" ? "save_failed" : code}`, { code });
+                }
             })
         ));
     }
@@ -325,7 +303,11 @@ export const laterDetail = {
                 await laterService.update(item.id, patch);
                 await attachmentService.commit(item.id, files ?? []);
                 router.refresh();
-            } catch (e) { toast.show(`error.${e?.code || "unexpected"}`); }
+            } catch (e) {
+                console.error("Could not update Later item", e);
+                const code = e?.code || "unexpected";
+                toast.show(`error.${code === "unexpected" ? "save_failed" : code}`, { code });
+            }
         });
 
         root.append(page(

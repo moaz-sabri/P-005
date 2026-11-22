@@ -12,6 +12,7 @@ export const strings = {
             finance: "Money",
             reports: "Reports",
             settings: "Settings",
+            help: "How to use",
             // The one control in the header, and the page it is also given an
             // address for. Both exist because the priority order — the person,
             // then today's work, then the services, then the tools that organise
@@ -61,6 +62,30 @@ export const strings = {
                 later: "Later",
                 pages: "Page"
             }
+        },
+        help: {
+            title: "How to use Notes",
+            startTitle: "Start here",
+            startOne: "Capture",
+            startOneText: "Put an idea, link or follow-up in Later. New items appear on the Kanban board automatically.",
+            startTwo: "Work",
+            startTwoText: "Use the board to move work from Have to Working, Deferred or Done. The original item remains the source of truth.",
+            startThree: "Review",
+            startThreeText: "Use the home screen for today, the Log for what happened, and Reports for trends.",
+            areasTitle: "Available areas",
+            later: "Later",
+            laterText: "A simple inbox for things you want to remember or follow up on.",
+            routines: "Habits",
+            routinesText: "Track repeated daily or weekly actions and their history.",
+            pages: "Pages",
+            pagesText: "Keep structured notes and references in one place.",
+            kanban: "Kanban",
+            kanbanText: "Organize active follow-ups visually. Later items are added automatically.",
+            reports: "Reports",
+            reportsText: "See summaries of sessions, follow-ups, habits and money records.",
+            dataTitle: "Your data",
+            data: "Local storage and files",
+            dataText: "Your data stays in this browser. Use Export JSON for a simple local copy, or the encrypted export for a protected backup."
         },
         // The first-run flow. Four short screens, in this order: say hello, set
         // up access, and — only if the user made a key rather than attached one
@@ -779,6 +804,8 @@ export const strings = {
             installDismissed: "Not installed.",
             export: "Export",
             import: "Import",
+            localExported: "Local JSON backup downloaded.",
+            localImported: "Local JSON backup restored.",
             clearAll: "Clear all data",
             version: "Version",
             persistence: "Storage persistence",
@@ -936,6 +963,9 @@ export const strings = {
             sync_invalid: "This file is not a valid sync file.",
             sync_too_new: "This sync file is from a newer version of the app.",
             sync_file_requires_auth: "This device isn't set up yet. Tap Export to create your secret key.",
+            transaction_inactive: "The save was interrupted. Please try again.",
+            save_failed: "Could not save this item. Please try again. Details: {code}",
+            pause: "This session cannot be paused in its current state.",
             payload_too_large: "The data is too large to send in one go.",
             conflict: "The server refused this change because of a conflict.",
             server_error: "The server returned an error.",
@@ -990,7 +1020,9 @@ export const strings = {
             // than "start" because the button inside it is the one that starts
             // it — two controls on one dialog cannot both be called Start.
             newSession: "New session",
-            note: "Add a note"
+            note: "Add a note",
+            routine: "Add a habit",
+            page: "Add a page"
         },
         common: {
             save: "Save",
@@ -1034,6 +1066,7 @@ export const strings = {
             finance: "المصاريف",
             reports: "التقارير",
             settings: "الإعدادات",
+            help: "طريقة الاستخدام",
             menu: "الأقسام",
             groupServices: "الخدمات",
             groupTools: "الأدوات",
@@ -1064,6 +1097,30 @@ export const strings = {
                 later: "لاحقًا",
                 pages: "صفحة"
             }
+        },
+        help: {
+            title: "طريقة استخدام Notes",
+            startTitle: "ابدأ من هنا",
+            startOne: "التقاط",
+            startOneText: "ضع الفكرة أو الرابط أو المتابعة في قسم المشاركات والأفكار. ستظهر العناصر الجديدة في اللوح تلقائيًا.",
+            startTwo: "العمل",
+            startTwoText: "استخدم اللوح لنقل العمل من متاح إلى قيد العمل أو مؤجل أو مكتمل. يبقى العنصر الأصلي هو المصدر الأساسي.",
+            startThree: "المراجعة",
+            startThreeText: "استخدم الرئيسية لما هو اليوم، والسجل لما حدث، والتقارير لمراجعة الاتجاهات.",
+            areasTitle: "الأقسام المتاحة",
+            later: "المشاركات والأفكار",
+            laterText: "صندوق بسيط للأشياء التي تريد تذكرها أو متابعتها.",
+            routines: "العادات",
+            routinesText: "تتبّع الأفعال اليومية أو الأسبوعية المتكررة وسجلها.",
+            pages: "الصفحات",
+            pagesText: "احتفظ بالملاحظات والمراجع المنظمة في مكان واحد.",
+            kanban: "اللوح",
+            kanbanText: "نظّم المتابعات بصريًا. تتم إضافة عناصر المشاركات والأفكار تلقائيًا.",
+            reports: "التقارير",
+            reportsText: "راجع ملخصات الجلسات والمتابعات والعادات والسجلات المالية.",
+            dataTitle: "بياناتك",
+            data: "التخزين والملفات المحلية",
+            dataText: "تبقى بياناتك في هذا المتصفح. استخدم تصدير JSON لنسخة محلية بسيطة، أو التصدير المشفر لنسخة محمية."
         },
         // نفس ترتيب النسخة الإنجليزية: ترحيب، ثم إعداد الوصول، ثم شرح مختصر.
         onboarding: {
@@ -1694,6 +1751,8 @@ export const strings = {
             installDismissed: "لم يُثبَّت.",
             export: "تصدير",
             import: "استيراد",
+            localExported: "تم تنزيل النسخة المحلية بصيغة JSON.",
+            localImported: "تمت استعادة النسخة المحلية بصيغة JSON.",
             clearAll: "مسح كل البيانات",
             version: "الإصدار",
             persistence: "استمرارية التخزين",
@@ -1702,7 +1761,7 @@ export const strings = {
             // and go into every backup, the BYTES never leave the device that
             // captured them, and the bytes are the part that fills a phone up.
             attachmentsTitle: "الصور والتسجيلات",
-            attachmentsHint: "بيانات المرفق تتمزامن مع الملاحظة. أما الصور والتسجيلات والملفات نفسها فتبقى على الجهاز الذي التُقطت فيه \u2014 hence تُفتح هنا، والملاحظة التي وصلت من جهاز آخر تقول ما تحمله دون أن تستطيع فتحه.",
+            attachmentsHint: "تتزامن بيانات المرفق مع الملاحظة. أما الصور والتسجيلات والملفات نفسها فتبقى على الجهاز الذي التُقطت فيه \u2014 لذلك تُفتح هنا، والملاحظة التي وصلت من جهاز آخر تقول ما تحمله دون أن تستطيع فتحه.",
             attachmentsUsed: "{size} محفوظ على هذا الجهاز",
             attachmentsNone: "لا شيء محفوظ على هذا الجهاز.",
             attachmentsUnknown: "تعذّرت قراءة حجم المحفوظ.",
@@ -1850,6 +1909,9 @@ export const strings = {
             sync_invalid: "هذا الملف ليس ملف مزامنة صالحًا.",
             sync_too_new: "ملف المزامنة من إصدار أحدث من التطبيق.",
             sync_file_requires_auth: "لم تُضبط هذه الجهاز بعد. اضغط تصدير لإنشاء مفتاحك السري.",
+            transaction_inactive: "توقفت عملية الحفظ قبل اكتمالها. حاول مرة أخرى.",
+            save_failed: "تعذّر حفظ هذا العنصر. حاول مرة أخرى. التفاصيل: {code}",
+            pause: "لا يمكن إيقاف هذه الجلسة مؤقتًا في حالتها الحالية.",
             payload_too_large: "البيانات أكبر من أن تُرسل دفعة واحدة.",
             conflict: "رفض الخادم هذا التغيير بسبب تعارض.",
             server_error: "أعاد الخادم خطأ.",
@@ -1895,7 +1957,9 @@ export const strings = {
         add: {
             title: "إضافة",
             newSession: "جلسة جديدة",
-            note: "إضافة ملاحظة"
+            note: "إضافة ملاحظة",
+            routine: "إضافة عادة",
+            page: "إضافة صفحة"
         },
         common: {
             save: "حفظ",

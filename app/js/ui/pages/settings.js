@@ -511,6 +511,22 @@ export const settingsPage = {
             }
         });
 
+        const localExportBtn = action({
+            label: `${t("settings.export")} JSON`,
+            icon: "file",
+            onClick: async () => {
+                try {
+                    const res = await backupService.exportPlain();
+                    const a = document.createElement("a");
+                    a.href = URL.createObjectURL(res.blob);
+                    a.download = res.filename;
+                    a.click();
+                    URL.revokeObjectURL(a.href);
+                    toast.show("settings.localExported");
+                } catch (e) { toast.show(`error.${e?.code || "unexpected"}`); }
+            }
+        });
+
         const input = h("input", { type: "file", accept: "application/json", class: "sr-only" });
         input.addEventListener("change", async () => {
             const f = input.files?.[0];
@@ -533,7 +549,24 @@ export const settingsPage = {
             } catch (e) { if (e?.code !== "cancelled") toast.show(`error.${e?.code || "unexpected"}`); }
         });
 
+        const localInput = h("input", { type: "file", accept: "application/json,.json", class: "sr-only" });
+        localInput.addEventListener("change", async () => {
+            const f = localInput.files?.[0];
+            if (!f) return;
+            try {
+                const parsed = await backupService.parsePlain(await f.text());
+                if (await dialog.confirm("settings.importConfirm")) {
+                    await backupService.importAll(parsed.data);
+                    await store.refresh("all");
+                    router.navigate("/");
+                    toast.show("settings.localImported");
+                }
+            } catch (e) { toast.show(`error.${e?.code || "unexpected"}`); }
+            localInput.value = "";
+        });
+
         const importBtn = action({ label: t("settings.import"), icon: "upload", onClick: () => input.click() });
+        const localImportBtn = action({ label: `${t("settings.import")} JSON`, icon: "upload", onClick: () => localInput.click() });
         const clear = action({
             label: t("settings.clearAll"),
             icon: "trash",
@@ -545,9 +578,6 @@ export const settingsPage = {
                 }
             }
         });
-
-        const syncStatusEl = h("p", { class: "muted", id: "sync-status" }, t("common.loading"));
-        const syncInputs = this.buildSyncSection();
 
         root.append(page(
             pageHead({ title: t("nav.settings"), icon: "sliders" }),
@@ -572,17 +602,12 @@ export const settingsPage = {
                         if (!accepted) toast.show("settings.installDismissed");
                     }
                 })) : null,
-                toolbar(exportBtn, importBtn, clear),
-                input
+                toolbar(exportBtn, importBtn, localExportBtn, localImportBtn, clear),
+                input,
+                localInput
             ),
 
             buildDeviceSection(),
-
-            pageSection({
-                title: t("settings.syncTitle"),
-                icon: "cloud",
-                body: h("div", {}, ...syncInputs, syncStatusEl)
-            }),
 
             buildAttachmentSection(),
 
@@ -600,7 +625,6 @@ export const settingsPage = {
         // are dropped on the way out: a check started by one mount must not land
         // in the DOM of the next one and leave a stale reconnect button behind.
         this.alive = true;
-        this.refreshSyncStatus().catch(e => console.warn("sync status", e));
         this.checkPersistence().catch(e => console.warn("persistence", e));
     },
 

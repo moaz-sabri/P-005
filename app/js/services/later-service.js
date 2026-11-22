@@ -106,7 +106,6 @@ export const laterService = {
         const item = { ...current, ...x, completedAt: current.completedAt, updatedAt: at };
         await withTx(["later"], "readwrite", r => later(r).put(item));
         await syncService.enqueue(T_LATER, id, "upsert", item);
-        await reflectCompletionOnKanban(item, Boolean(done));
         notify();
         return item;
     },
@@ -122,6 +121,7 @@ export const laterService = {
         const item = { ...current, completedAt: done ? at : null, updatedAt: at };
         await withTx(["later"], "readwrite", r => later(r).put(item));
         await syncService.enqueue(T_LATER, id, "upsert", item);
+        await reflectCompletionOnKanban(item, Boolean(done));
         notify();
         return item;
     },
